@@ -1,11 +1,13 @@
 """ Tests for the notebook_utils module. """
 
 import pytest
+from pathlib import Path
+from typing import Any, Callable
 
 from gitingest.notebook_utils import process_notebook
 
 
-def test_process_notebook_all_cells(write_notebook):
+def test_process_notebook_all_cells(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook containing markdown, code, and raw cells.
 
@@ -34,7 +36,7 @@ def test_process_notebook_all_cells(write_notebook):
     assert '"""\nprint("Hello Code")\n"""' not in result
 
 
-def test_process_notebook_with_worksheets(write_notebook):
+def test_process_notebook_with_worksheets(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook containing the 'worksheets' key (deprecated as of IPEP-17).
 
@@ -67,7 +69,7 @@ def test_process_notebook_with_worksheets(write_notebook):
     assert result_with == result_without, "Both notebooks should produce identical content."
 
 
-def test_process_notebook_multiple_worksheets(write_notebook):
+def test_process_notebook_multiple_worksheets(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook containing multiple 'worksheets'.
 
@@ -104,7 +106,7 @@ def test_process_notebook_multiple_worksheets(write_notebook):
     assert result_multi == result_single, "Second worksheet was ignored, results match."
 
 
-def test_process_notebook_code_only(write_notebook):
+def test_process_notebook_code_only(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook containing only code cells.
 
@@ -125,7 +127,7 @@ def test_process_notebook_code_only(write_notebook):
     assert "x = 42" in result
 
 
-def test_process_notebook_markdown_only(write_notebook):
+def test_process_notebook_markdown_only(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook with 2 markdown cells.
 
@@ -145,7 +147,7 @@ def test_process_notebook_markdown_only(write_notebook):
     assert "Some more markdown." in result
 
 
-def test_process_notebook_raw_only(write_notebook):
+def test_process_notebook_raw_only(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook with 2 raw cells.
 
@@ -166,7 +168,7 @@ def test_process_notebook_raw_only(write_notebook):
     assert "Raw content line 2" in result
 
 
-def test_process_notebook_empty_cells(write_notebook):
+def test_process_notebook_empty_cells(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test that cells with an empty 'source' are skipped entirely.
 
@@ -188,7 +190,7 @@ def test_process_notebook_empty_cells(write_notebook):
     assert "# Non-empty markdown" in result
 
 
-def test_process_notebook_invalid_cell_type(write_notebook):
+def test_process_notebook_invalid_cell_type(write_notebook: Callable[[str, dict], Path]) -> None:
     """
     Test a notebook with an unknown cell type.
 

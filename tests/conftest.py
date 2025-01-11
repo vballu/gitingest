@@ -2,10 +2,9 @@
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import pytest
-
 
 @pytest.fixture
 def sample_query() -> dict[str, Any]:
@@ -76,7 +75,7 @@ def temp_directory(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
-def write_notebook(tmp_path: Path):
+def write_notebook(tmp_path: Path) -> Callable[[str, dict[str, Any]], Path]:
     """
     A fixture that returns a helper function to write a .ipynb notebook file at runtime with given content.
     """
